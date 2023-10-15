@@ -53,3 +53,10 @@ vim.cmd('autocmd! TermOpen term://* lua set_terminal_keymaps()')
 -- goto definition lsp function
 vim.api.nvim_set_keymap("n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", { noremap = true, silent = true })
 vim.api.nvim_set_keymap("n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", { noremap = true, silent = true })
+
+-- show diagnostic errors in a floating window
+vim.api.nvim_set_keymap("n", "gl", "<cmd>lua vim.diagnostic.open_float()<CR>", { noremap = true, silent = true })
+
+-- Set some keybinds conditional on server capabilities
+keymap.set("n", "<space>sf", "<cmd>lua vim.lsp.buf.format()<CR>", { noremap = true, silent = true, desc = "Format current file content" })
+
