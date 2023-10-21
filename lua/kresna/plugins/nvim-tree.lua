@@ -23,14 +23,12 @@ return {
         width = 35,
         relativenumber = true,
       },
-      renderer = {
-        group_empty = true,
-      },
       filters = {
         dotfiles = false,
       },
        -- change folder arrow icons
       renderer = {
+        group_empty = true,
         indent_markers = {
           enable = true,
         },
@@ -54,8 +52,8 @@ return {
         },
       },
 
-    }) 
-    
+    })
+
     -- set keymaps
     local keymap = vim.keymap -- for conciseness
 
