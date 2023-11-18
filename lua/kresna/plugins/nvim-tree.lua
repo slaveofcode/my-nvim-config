@@ -51,6 +51,9 @@ return {
           },
         },
       },
+      git = {
+        ignore = false,
+      },
 
     })
 
