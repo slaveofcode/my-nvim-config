@@ -1,2 +1,2 @@
 ## Required Installs
-- `zfz`: fuzzy finder
+- `fzf`: fuzzy finder
