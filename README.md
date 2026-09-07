@@ -682,6 +682,25 @@ whole project recursively (respecting `.gitignore`).
 - **Find the word under the cursor across files:** see `grep_string` —
   `:lua require('telescope.builtin').grep_string()` (treats it as literal text).
 
+### Jump to a file that has a git conflict
+
+After a `git merge`/`git rebase`/`git pull` leaves conflicts, here are the ways
+to find and open the conflicted files:
+
+- **Best — open Diffview:** `:DiffviewOpen`. During a merge it lists the
+  conflicted files in the left panel (a "Conflicts" group). Move between them
+  with `<Tab>` / `<S-Tab>`, jump between conflict hunks with `]x` / `[x`, and
+  resolve with `<leader>co` (ours) / `<leader>ct` (theirs) — see
+  [diffview](#diffview--diffs--merge-conflicts).
+- **See all changed/unmerged files:** `:lua require('telescope.builtin').git_status()`
+  — conflicted files show as unmerged (`UU`); press `<CR>` to open one.
+- **Search for the conflict markers:** `<leader>fg` then type `<<<<<<<`
+  (the merge marker). Every hit is a conflict location across the project — open
+  one with `<CR>`, or `<C-q>` to send them all to the quickfix list and step
+  through with `:cnext` / `:cprev`.
+- **Inside a conflicted file:** the markers are `<<<<<<<`, `=======`, `>>>>>>>`.
+  Search to the next one with `/<<<<<<<` then `Enter` (or `n` to repeat).
+
 ### Handy one-liners
 
 | Task | How |
