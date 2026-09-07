@@ -109,6 +109,7 @@ what implements an interface.
   - [go.nvim — Go](#gonvim--go)
   - [which-key](#which-key)
   - [Passive plugins](#passive-plugins-no-keys-needed)
+- [Tips & tricks (coming from VS Code)](#-tips--tricks-coming-from-vs-code)
 
 ## Structure
 
@@ -582,6 +583,159 @@ in-editor version of this README. No setup needed.
 | [lualine.nvim](https://github.com/nvim-lualine/lualine.nvim) | The statusline (mode, branch, diagnostics, position) — dracula theme |
 | [rose-pine](https://github.com/rose-pine/neovim) | The colorscheme (moon variant). Change with `:colorscheme <name>` |
 | [nvim-web-devicons](https://github.com/nvim-tree/nvim-web-devicons) | File-type icons used by the tree, bufferline, and statusline |
+
+---
+
+## 💡 Tips & tricks (coming from VS Code)
+
+The everyday "how do I do *that* here?" list. `<leader>` = **Space**.
+
+### Coming-from-VS-Code quick map
+
+| In VS Code | Here | Notes |
+| --- | --- | --- |
+| `Cmd+P` open file | `<leader>ff` | Fuzzy find files |
+| `Cmd+Shift+F` find in files | `<leader>fg` | Search text everywhere (ripgrep) |
+| `F2` rename symbol | `<F2>` | Renames **all usages** (see below) |
+| `Cmd+H` replace in file | `:%s/old/new/g` | Substitute (see below) |
+| `Cmd+/` toggle comment | `gcc` (line) / `gc` (selection) | Built-in |
+| `Cmd+D` multi-cursor | `<C-v>` block, or `cgn`+`.` | See "edit many lines" |
+| `Ctrl+G` go to line | `:42` then `Enter` | Or `42G` |
+| `Cmd+A` select all | `ggVG` | |
+| Alt+↑/↓ move line | `:m` command / `ddp` | See below |
+| `Cmd+Z` / `Cmd+Shift+Z` | `u` / `<C-r>` | Undo / redo |
+| `Cmd+click` go to def | `gd` | See [Code Navigation](#-code-navigation) |
+| Go back / forward | `<C-o>` / `<C-i>` | After any jump |
+
+### Rename a symbol everywhere (variable, function, class, module…)
+
+Put the cursor on the name and press **`<F2>`**, type the new name, `Enter`.
+This is a **semantic** rename via the language server — it updates the
+definition **and every usage/reference across the project**, not just matching
+text. Works for variables, functions, methods, classes, types, modules, etc.
+
+- Requires the language server for that file (install via `:Mason`, check `:LspInfo`).
+- Preview affected spots first with **`gr`** (list references).
+- Different from `:%s` below, which is dumb text replacement (no scope awareness).
+
+### Edit many lines at once (the "multi-cursor" replacements)
+
+Vim has three idioms that cover what multi-cursor does in VS Code:
+
+**1. Visual block — same edit on a column of lines**
+```
+<C-v>          start block select
+j j j …        extend down over the lines
+I  (or A)      insert before (or append after) — type your text
+<Esc>          the text appears on ALL selected lines
+```
+Use `I`/`A` to add a prefix/suffix to many lines, or `c` to change a block,
+`d` to delete a column.
+
+**2. Change next match, then repeat — like `Cmd+D`**
+```
+*              search for the word under the cursor
+cgn            change the next match (type the replacement)
+<Esc>          then press .  to repeat on the next match, . again, …
+```
+`n` skips a match you don't want to change; `.` applies your change to the next one.
+
+**3. Substitute across the file — change all at once**
+```
+:%s/old/new/g     replace every "old" with "new" in the file
+:%s/old/new/gc    …with a confirm prompt for each (y/n/a/q)
+```
+
+### Find & replace in the current file (`:s`)
+
+| Command | Does |
+| --- | --- |
+| `:%s/foo/bar/g` | Replace all `foo` → `bar` in the file |
+| `:%s/foo/bar/gc` | …asking to confirm each one |
+| `:s/foo/bar/g` | Only on the current line |
+| `:'<,'>s/foo/bar/g` | Only in the visual selection (select first, then `:s…`) |
+| `:%s/\<foo\>/bar/g` | Whole word only (`\<` `\>` are word boundaries) |
+| `:%s/foo/bar/gi` | Case-**insensitive** match |
+| `:%s/foo/bar/gI` | Force case-**sensitive** |
+
+Special characters in the pattern (`. * / \ [ ]`…) must be escaped with `\`,
+e.g. replace `a.b()` → `:%s/a\.b()/x/g`. Escape a literal `/` as `\/`, or use a
+different delimiter: `:%s#path/one#path/two#g`.
+
+### Find text across files & subdirectories
+
+Press **`<leader>fg`** (Telescope live grep, powered by ripgrep). It searches the
+whole project recursively (respecting `.gitignore`).
+
+- **Case sensitivity — smart by default:** an all-lowercase query is
+  case-**insensitive**; include any uppercase letter and it becomes
+  case-**sensitive**. To force it inline, prefix the regex:
+  `(?i)error` = always case-insensitive, `(?-i)Error` = always case-sensitive.
+- **The query is a regex.** A space matches a literal space, so
+  `foo bar` finds "foo bar". Metacharacters are special — to search a literal
+  `config.get(` escape them: `config\.get\(` — or match loosely with `.`.
+- **Then narrow:** after results appear, keep typing to refine, `<C-n>`/`<C-p>`
+  to move, `<CR>` to open, `<C-v>`/`<C-x>` to open in a split. `<C-q>` dumps all
+  matches into the quickfix list to step through with `:cnext` / `:cprev`.
+- **Search only a subfolder:** run
+  `:lua require('telescope.builtin').live_grep({ search_dirs = { 'app/', 'lib/' } })`.
+- **Find the word under the cursor across files:** see `grep_string` —
+  `:lua require('telescope.builtin').grep_string()` (treats it as literal text).
+
+### Handy one-liners
+
+| Task | How |
+| --- | --- |
+| Go to line 120 | `:120` then `Enter` (or `120G`) |
+| Top / bottom of file | `gg` / `G` |
+| Copy whole file to clipboard | `ggVGy` (clipboard is the default register) |
+| Copy current file's path | `:let @+ = expand('%')` |
+| Select all | `ggVG` |
+| Indent / outdent selection | select, then `>` / `<` (repeat with `.`) |
+| Move a line down / up | `:m +1` / `:m -2` (or `ddp` / `ddkP`) |
+| Delete without touching clipboard | `"_d` (e.g. `"_dd`) |
+| Clear last search highlight | `:noh` |
+| Reopen last closed file | `<leader>fb` or `:e#` |
+| Save / quit | `:w` / `:q` (`:wq` both, `:q!` discard) |
+
+> **Clipboard note:** this config sets `clipboard=unnamedplus`, so plain `y`
+> (yank) and `p` (paste) already use your **system clipboard** — no need for a
+> special register. `<leader>y` is just an explicit alias.
+
+### Quitting Vim & the "editor opened inside the terminal" trap
+
+**How to quit at all** (do this from **normal** mode — press `<Esc>` first if you're typing):
+
+| Command | Does |
+| --- | --- |
+| `:w` | Save |
+| `:q` | Quit this window |
+| `:wq` or `ZZ` | Save **and** quit |
+| `:q!` or `ZQ` | Quit and **throw away** changes |
+| `:qa` | Quit **all** windows/tabs |
+| `:qa!` | Quit everything, discard all changes |
+
+**The terminal-inside-Vim situation.** You opened the built-in terminal
+(`<C-\>`), ran something, and an editor popped open — e.g. you typed
+`nvim file`, or ran `git commit` and its message editor appeared. Here's what's
+happening and how to get out:
+
+- Thanks to **flatten.nvim**, that file does **not** open a second, nested
+  Neovim — it opens as a normal buffer in your **current** Neovim. So you're not
+  trapped in a sub-editor; you're just in another buffer.
+- **To get back:** press `<Esc>` to make sure you're in normal mode, then `:q`
+  (or `:bd` to close the buffer). You return to your session.
+- **For a `git commit` / rebase:** the terminal hides itself while you write the
+  message. Type it, then `:wq` to save & close — the commit runs and the
+  terminal comes back automatically. To **abort** the commit instead, `:q!`
+  (empty/unsaved message cancels it).
+
+**If you truly get stuck** (a genuinely nested `nvim`, no flatten): `:qa` exits
+it and drops you back to the terminal. Still stuck at a terminal prompt? Run
+`exit` to close the terminal buffer, or `<C-\>` to toggle it away.
+
+> Rule of thumb: **`<Esc>` → `:q`** gets you out of almost anything. Add `!` to
+> discard changes, `a` to close everything.
 
 ---
 
