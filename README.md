@@ -14,6 +14,7 @@ terminal, Rust/Go tooling, and Markdown preview.
 
 - [Structure](#structure)
 - [Requirements](#requirements)
+- [Installation](#installation)
 - [Managing plugins (lazy.nvim)](#managing-plugins-lazynvim)
 - [General keymaps](#general-keymaps)
 - [Plugin guide](#plugin-guide) — commands, shortcuts & how-to for every plugin
@@ -54,6 +55,74 @@ lua/kresna/
 - A [Nerd Font](https://www.nerdfonts.com/) — icons in the tree, statusline, bufferline
 - A true-color terminal (iTerm2, WezTerm, Kitty, …) — `termguicolors` is on
 - Language servers install on demand via **Mason** (`:Mason`)
+
+---
+
+## Installation
+
+This is a full Neovim config — it lives in `~/.config/nvim`.
+
+### 1. Back up any existing config
+
+If you already have a Neovim setup, move it aside first (skip if this is a fresh machine):
+
+```bash
+mv ~/.config/nvim ~/.config/nvim.bak
+# optional: also clear old plugin/cache data for a clean slate
+mv ~/.local/share/nvim ~/.local/share/nvim.bak
+mv ~/.local/state/nvim ~/.local/state/nvim.bak
+mv ~/.cache/nvim ~/.cache/nvim.bak
+```
+
+### 2. Clone this repo
+
+```bash
+# SSH (if your GitHub SSH key is set up)
+git clone git@github.com:slaveofcode/my-nvim-config.git ~/.config/nvim
+
+# or HTTPS
+git clone https://github.com/slaveofcode/my-nvim-config.git ~/.config/nvim
+```
+
+### 3. Install the prerequisites
+
+Make sure the tools from [Requirements](#requirements) are present. On macOS with Homebrew:
+
+```bash
+brew install neovim git make fzf node
+# then install a Nerd Font, e.g.:
+brew install --cask font-jetbrains-mono-nerd-font
+```
+
+Set your terminal to use the Nerd Font so icons render.
+
+### 4. First launch
+
+```bash
+nvim
+```
+
+On first start, **lazy.nvim bootstraps itself and installs every plugin
+automatically**. Let it finish, then **quit and reopen** so all plugins load
+cleanly. During this first run:
+
+- `telescope-fzf-native` compiles its native library (needs `make` + a C compiler).
+- Treesitter parsers build automatically (`:TSUpdate` runs on install).
+- `markdown-preview` downloads its preview binary.
+
+### 5. Install language servers
+
+Open Neovim and run `:Mason`, then install the servers you want (press `i` on
+each). `lua_ls` and `tsserver` already have custom setups baked in.
+
+### 6. Verify
+
+```vim
+:checkhealth
+```
+
+Fix anything flagged as an error (warnings are usually fine). You're done — see
+the [Plugin guide](#plugin-guide) for how to use everything.
 
 ---
 
