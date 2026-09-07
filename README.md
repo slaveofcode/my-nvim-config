@@ -10,6 +10,25 @@ terminal, Rust/Go tooling, and Markdown preview.
 
 **Leader key:** `<Space>` (written as `<leader>`)
 
+### How to read the shortcuts
+
+The keys use Vim's notation. `<...>` is one special key; **`C-` means Ctrl**,
+`S-` means Shift.
+
+| Notation | Means | Example |
+| --- | --- | --- |
+| `<leader>` | The **Space** bar | `<leader>ff` = Space, then `f`, then `f` |
+| `<C-o>` | **Ctrl + o** (hold Ctrl, press `o`) | `<C-o>` = Ctrl+O |
+| `<C-\>` | **Ctrl + \\** | toggles the terminal |
+| `<S-Tab>` | **Shift + Tab** | |
+| `<CR>` | **Enter** (carriage return) | |
+| `<Esc>` | **Escape** | |
+| `<F2>` … `<F4>` | The **function keys** F2–F4 | |
+| `gd`, `jk` | Plain letters — press them **in sequence**, not together | `gd` = `g` then `d` |
+
+So `<C-h/j/k/l>` means "Ctrl + h, Ctrl + j, Ctrl + k, or Ctrl + l", and
+`<leader>co` means "Space, then `c`, then `o`".
+
 ## ⚡ Shortcut cheat sheet
 
 Quick reference for the custom keys in this config (`<leader>` = **Space**).
