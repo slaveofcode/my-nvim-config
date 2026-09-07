@@ -10,6 +10,42 @@ terminal, Rust/Go tooling, and Markdown preview.
 
 **Leader key:** `<Space>` (written as `<leader>`)
 
+## ⚡ Shortcut cheat sheet
+
+Quick reference for the custom keys in this config (`<leader>` = **Space**).
+Scan it daily to build muscle memory; jump to the [Plugin guide](#plugin-guide)
+for the full details and in-plugin keys.
+
+| Shortcut | Does | | Shortcut | Does |
+| --- | --- | --- | --- | --- |
+| **Find & files** | | | **Window & tabs** | |
+| `<leader>ff` | Find files | | `<leader>sv` | Split vertical |
+| `<leader>fg` | Live grep (search text) | | `<leader>sh` | Split horizontal |
+| `<leader>fb` | Open buffers | | `<leader>se` | Equalize splits |
+| `<leader>fh` | Help tags | | `<leader>sx` | Close split |
+| `<leader>ee` | Toggle file tree | | `<C-w> h/j/k/l` | Move between windows |
+| `<leader>ef` | Focus file tree | | `<leader>to` | New tab |
+| `<leader>ec` | Collapse tree | | `<leader>tn` / `tp` | Next / prev tab |
+| `<leader>er` | Refresh tree | | `<leader>tx` | Close tab |
+| **LSP (code)** | | | **Clipboard** | |
+| `K` | Hover docs | | `<leader>y` / `Y` | Yank to system clipboard |
+| `gd` / `gD` | Definition / declaration | | `<leader>p` | Paste, keep register (visual) |
+| `gi` / `go` | Implementation / type | | **Terminal** | |
+| `gr` | References | | `<C-\>` | Toggle terminal |
+| `gs` | Signature help | | `<Esc>` / `jk` | Leave terminal mode |
+| `<F2>` | Rename | | `<C-h/j/k/l>` | Move out of terminal |
+| `<F3>` / `<F4>` | Format / code action | | **Markdown** | |
+| `[d` / `]d` | Prev / next diagnostic | | `<leader>mp` | Toggle browser preview |
+| `gl` | Line diagnostics float | | **Discover keys** | |
+| **Completion** (insert) | | | `<leader>` + wait | which-key popup |
+| `<C-Space>` | Trigger menu | | `:Lazy` | Manage plugins |
+| `<CR>` | Confirm item | | `:Mason` | Install LSP servers |
+| `<C-f>` / `<C-b>` | Next / prev snippet stop | | `:checkhealth` | Diagnose the setup |
+
+**Merge conflicts** (in `:DiffviewOpen`): `<leader>co` take ours · `<leader>ct`
+take theirs · `<leader>cb` base · `<leader>ca` all · `dx` delete region ·
+`]x` / `[x` next / prev conflict.
+
 ## Table of contents
 
 - [Structure](#structure)
