@@ -46,6 +46,27 @@ for the full details and in-plugin keys.
 take theirs · `<leader>cb` base · `<leader>ca` all · `dx` delete region ·
 `]x` / `[x` next / prev conflict.
 
+### 🧭 Code Navigation
+
+Jump around code — functions, variables, constants, types. Put the cursor on a
+symbol and press the key. **Powered by the LSP server**, so the relevant server
+must be installed via `:Mason` (check with `:LspInfo` if a key does nothing).
+
+| Key | Jumps to | Notes |
+| --- | --- | --- |
+| `gd` | **Definition** | The everyday one — funcs, vars, consts, types |
+| `gD` | **Declaration** | Often same as `gd`; distinct mainly in C/C++ headers |
+| `gi` | **Implementation** | Implementers of an interface/abstract method (e.g. Go interfaces) |
+| `go` | **Type definition** | The type of the variable/constant under the cursor |
+| `gr` | **References** | Every place the symbol is used |
+| `K` | **Hover docs** | Signature + docs without leaving the spot |
+| `<C-o>` | **Jump back** | Return to where you jumped from |
+| `<C-i>` | **Jump forward** | Redo a jump (opposite of `<C-o>`) |
+
+**Typical flow:** cursor on a function call → `gd` to read its definition →
+`<C-o>` to jump back. Use `gr` to see everywhere it's called, `gi` to find
+what implements an interface.
+
 ## Table of contents
 
 - [Structure](#structure)
