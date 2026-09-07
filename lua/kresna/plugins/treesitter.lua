@@ -1,5 +1,7 @@
 return {
   "nvim-treesitter/nvim-treesitter",
+  branch = "master", -- stable legacy API (require('nvim-treesitter.configs').setup)
+  build = ":TSUpdate", -- rebuild parsers when the plugin updates (keeps ABI in sync with Neovim)
   config = function()
     require('nvim-treesitter.configs').setup({
       -- A list of parser names, or "all" (the five listed parsers should always be installed)
@@ -14,6 +16,7 @@ return {
         "toml",
         "yaml",
         "markdown",
+        "markdown_inline", -- required for markdown highlighting (inline injections)
       },
 
       -- Install parsers synchronously (only applied to `ensure_installed`)
