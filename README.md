@@ -128,7 +128,8 @@ lua/kresna/
 - `git`, `make`, and a C compiler (`cc`/`gcc`) — to build `telescope-fzf-native`
 - [`fzf`](https://github.com/junegunn/fzf) — fuzzy finder
 - `node` — for markdown-preview (the binary is auto-downloaded on install)
-- A [Nerd Font](https://www.nerdfonts.com/) — icons in the tree, statusline, bufferline
+- A [Nerd Font](https://www.nerdfonts.com/) **set as your terminal font** — for
+  icons in the tree, statusline, bufferline (see [Installation step 4](#4-set-your-terminal-to-use-the-nerd-font))
 - A true-color terminal (iTerm2, WezTerm, Kitty, …) — `termguicolors` is on
 - Language servers install on demand via **Mason** (`:Mason`)
 
@@ -170,9 +171,56 @@ brew install neovim git make fzf node
 brew install --cask font-jetbrains-mono-nerd-font
 ```
 
-Set your terminal to use the Nerd Font so icons render.
+### 4. Set your terminal to use the Nerd Font
 
-### 4. First launch
+**This step is required for the file-tree, statusline, and git icons to render.**
+Installing the font isn't enough — the terminal must be told to *use* it, or every
+icon shows as a `?`-in-a-box (missing glyph).
+
+<details>
+<summary><b>Ghostty</b> (this setup's terminal)</summary>
+
+Edit `~/.config/ghostty/config` (create it if missing) and add:
+
+```
+font-family = "JetBrainsMono Nerd Font Mono"
+font-size = 14
+```
+
+Then reload: **`Cmd+Shift+,`**, or quit and reopen Ghostty.
+Check the exact installed name with `ghostty +list-fonts | grep -i jetbrains`.
+</details>
+
+<details>
+<summary><b>iTerm2</b></summary>
+
+Settings → Profiles → Text → Font → pick **JetBrainsMono Nerd Font**.
+</details>
+
+<details>
+<summary><b>WezTerm</b></summary>
+
+In `~/.wezterm.lua`:
+
+```lua
+config.font = wezterm.font("JetBrainsMono Nerd Font")
+```
+</details>
+
+<details>
+<summary><b>Kitty</b></summary>
+
+In `~/.config/kitty/kitty.conf`:
+
+```
+font_family JetBrainsMono Nerd Font Mono
+```
+</details>
+
+> Sanity check: run `echo -e "  "` in the terminal. If you see
+> icons (not boxes), the font is working.
+
+### 5. First launch
 
 ```bash
 nvim
@@ -186,12 +234,12 @@ cleanly. During this first run:
 - Treesitter parsers build automatically (`:TSUpdate` runs on install).
 - `markdown-preview` downloads its preview binary.
 
-### 5. Install language servers
+### 6. Install language servers
 
 Open Neovim and run `:Mason`, then install the servers you want (press `i` on
 each). `lua_ls` and `tsserver` already have custom setups baked in.
 
-### 6. Verify
+### 7. Verify
 
 ```vim
 :checkhealth
