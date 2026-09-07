@@ -60,6 +60,9 @@ for the full details and in-plugin keys.
 | `<C-Space>` | Trigger menu | | `:Lazy` | Manage plugins |
 | `<CR>` | Confirm item | | `:Mason` | Install LSP servers |
 | `<C-f>` / `<C-b>` | Next / prev snippet stop | | `:checkhealth` | Diagnose the setup |
+| | | | **Git** | |
+| | | | `<leader>gg` | lazygit dashboard |
+| | | | `<leader>gf` | lazygit (current file's repo) |
 
 **Merge conflicts** (in `:DiffviewOpen`): `<leader>co` take ours · `<leader>ct`
 take theirs · `<leader>cb` base · `<leader>ca` all · `dx` delete region ·
@@ -99,6 +102,7 @@ what implements an interface.
   - [LSP (lsp-zero + Mason)](#lsp-lsp-zero--mason)
   - [nvim-cmp — autocompletion](#nvim-cmp--autocompletion)
   - [Treesitter](#treesitter)
+  - [lazygit — git dashboard](#lazygit--git-dashboard)
   - [gitsigns — git in the gutter](#gitsigns--git-in-the-gutter)
   - [diffview — diffs & merge conflicts](#diffview--diffs--merge-conflicts)
   - [toggleterm — terminal](#toggleterm--terminal)
@@ -128,6 +132,8 @@ lua/kresna/
 - Neovim **0.10+** (developed on 0.12)
 - `git`, `make`, and a C compiler (`cc`/`gcc`) — to build `telescope-fzf-native`
 - [`fzf`](https://github.com/junegunn/fzf) — fuzzy finder
+- [`ripgrep`](https://github.com/BurntSushi/ripgrep) (`rg`) — powers Telescope's find-in-files
+- [`lazygit`](https://github.com/jesseduffield/lazygit) — the git dashboard (`<leader>gg`)
 - `node` — for markdown-preview (the binary is auto-downloaded on install)
 - A [Nerd Font](https://www.nerdfonts.com/) **set as your terminal font** — for
   icons in the tree, statusline, bufferline (see [Installation step 4](#4-set-your-terminal-to-use-the-nerd-font))
@@ -167,7 +173,7 @@ git clone https://github.com/slaveofcode/my-nvim-config.git ~/.config/nvim
 Make sure the tools from [Requirements](#requirements) are present. On macOS with Homebrew:
 
 ```bash
-brew install neovim git make fzf node
+brew install neovim git make fzf ripgrep lazygit node
 # then install a Nerd Font, e.g.:
 brew install --cask font-jetbrains-mono-nerd-font
 ```
@@ -430,6 +436,38 @@ install themselves when you open a file (`auto_install` is on).
 
 Pre-installed: astro, vue, json, rust, javascript, go, typescript, toml, yaml, markdown.
 
+### lazygit — git dashboard
+
+A full-screen, keyboard-driven git UI (the standalone `lazygit` TUI, opened in a
+float). The quickest way to stage, commit, push, branch, rebase, stash, and
+browse history — the closest thing to a git GUI.
+
+| Key | Action |
+| --- | --- |
+| `<leader>gg` | Open lazygit for the project |
+| `<leader>gf` | Open lazygit for the current file's repo |
+
+| Command | Does |
+| --- | --- |
+| `:LazyGit` | Open the dashboard |
+| `:LazyGitCurrentFile` | Open it scoped to the current file's repo |
+| `:LazyGitFilter` | Browse commits (project) |
+
+**Inside lazygit** (the essentials — press `?` for the full list):
+
+| Key | Action |
+| --- | --- |
+| `<Tab>` | Move between panels (Files / Branches / Commits / Stash) |
+| `Space` | Stage / unstage the file or hunk under the cursor |
+| `c` | Commit (opens a message box; type it, confirm) |
+| `P` / `p` | Push / pull |
+| `b` | Branch menu (checkout/create) |
+| `<Enter>` | Drill into a file to stage individual lines/hunks |
+| `q` | Quit back to Neovim |
+
+**How to use:** `<leader>gg`, press `Space` on the files you want, `c` to commit,
+`P` to push, `q` to exit. Requires the `lazygit` binary (`brew install lazygit`).
+
 ### gitsigns — git in the gutter
 
 Shows added/changed/removed lines in the sign column, plus **inline blame** on
@@ -684,10 +722,12 @@ whole project recursively (respecting `.gitignore`).
 
 ### Working with Git (diffs, blame, history)
 
-This config has **no `git commit` UI plugin** — you run git commands in the
-terminal (`<C-\>`), and two plugins give you the visual side: **gitsigns** (in
-the file you're editing) and **diffview** (full-screen diffs & history). The
-branch + `+/-` change counts also show in the statusline (lualine).
+The **fastest way to do anything git** is **lazygit** — press **`<leader>gg`**
+for a full git dashboard (stage, commit, push/pull, branch, rebase, stash, view
+diffs & log). See [lazygit](#lazygit--git-dashboard). The two plugins below add
+the in-editor view: **gitsigns** (in the file you're editing) and **diffview**
+(full-screen diffs & history). The branch + `+/-` change counts also show in the
+statusline (lualine).
 
 **See what changed — in the current file (gitsigns).**
 Changed lines are marked in the gutter (`│` add/change, `_` delete). Then:
@@ -719,10 +759,11 @@ show faded at the end of the line.
 Inside it: `<Tab>` / `<S-Tab>` move between files, `<CR>` opens a file's diff,
 `<leader>e` toggles the file panel. See [diffview](#diffview--diffs--merge-conflicts).
 
-**Commit, push, branch, etc.** Open the terminal with `<C-\>` and run git
-normally (`git add -p`, `git commit`, `git push`, `git switch -c feature`…).
-When `git commit` opens its message editor, **flatten.nvim** opens it in your
-current Neovim — write the message and `:wq` to finish (`:q!` to abort). See
+**Commit, push, branch, etc.** Easiest is **`<leader>gg`** (lazygit) — stage with
+`Space`, commit with `c`, push with `P`, quit with `q`. Or open the terminal with
+`<C-\>` and run git normally (`git add -p`, `git commit`, `git push`…); when
+`git commit` opens its message editor, **flatten.nvim** opens it in your current
+Neovim — write the message and `:wq` to finish (`:q!` to abort). See
 [Quitting Vim](#quitting-vim--the-editor-opened-inside-the-terminal-trap).
 
 ### Jump to a file that has a git conflict
