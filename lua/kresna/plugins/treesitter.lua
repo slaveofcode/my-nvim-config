@@ -2,6 +2,10 @@ return {
   "nvim-treesitter/nvim-treesitter",
   branch = "master", -- stable legacy API (require('nvim-treesitter.configs').setup)
   build = ":TSUpdate", -- rebuild parsers when the plugin updates (keeps ABI in sync with Neovim)
+  dependencies = {
+    -- select/move by function & class (af/if, ac/ic, ]m/[m, ]]/[[)
+    { "nvim-treesitter/nvim-treesitter-textobjects", branch = "master" },
+  },
   config = function()
     require('nvim-treesitter.configs').setup({
       -- A list of parser names, or "all" (the five listed parsers should always be installed)
@@ -54,6 +58,28 @@ return {
         -- Using this option may slow down your editor, and you may see some duplicate highlights.
         -- Instead of true it can also be a list of languages
         additional_vim_regex_highlighting = false,
+      },
+
+      -- Select and move around functions, classes, and parameters by structure.
+      textobjects = {
+        select = {
+          enable = true,
+          lookahead = true, -- jump forward to the textobj if the cursor isn't on one
+          keymaps = {
+            ["af"] = "@function.outer",
+            ["if"] = "@function.inner",
+            ["ac"] = "@class.outer",
+            ["ic"] = "@class.inner",
+            ["aa"] = "@parameter.outer",
+            ["ia"] = "@parameter.inner",
+          },
+        },
+        move = {
+          enable = true,
+          set_jumps = true, -- add movements to the jumplist (<C-o>/<C-i>)
+          goto_next_start = { ["]m"] = "@function.outer", ["]]"] = "@class.outer" },
+          goto_previous_start = { ["[m"] = "@function.outer", ["[["] = "@class.outer" },
+        },
       },
     })
   end

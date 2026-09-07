@@ -63,6 +63,13 @@ for the full details and in-plugin keys.
 | | | | **Git** | |
 | | | | `<leader>gg` | lazygit dashboard |
 | | | | `<leader>gf` | lazygit (current file's repo) |
+| | | | **Edit & move** | |
+| | | | `s` + chars | Flash jump anywhere |
+| | | | `ysiw)` `cs"'` `ds(` | Surround add/change/delete |
+| | | | `daf` / `vif` | Delete / select a function |
+| | | | `]m` / `[m` | Next / prev function |
+| | | | `<leader>xx` | Diagnostics panel (Trouble) |
+| | | | `<leader>ft` · `]t` | Find TODOs · next TODO |
 
 **Merge conflicts** (in `:DiffviewOpen`): `<leader>co` take ours · `<leader>ct`
 take theirs · `<leader>cb` base · `<leader>ca` all · `dx` delete region ·
@@ -112,6 +119,11 @@ what implements an interface.
   - [rust-tools — Rust](#rust-tools--rust)
   - [go.nvim — Go](#gonvim--go)
   - [which-key](#which-key)
+  - [nvim-surround — surround text](#nvim-surround--surround-text)
+  - [flash.nvim — jump anywhere](#flashnvim--jump-anywhere)
+  - [trouble.nvim — diagnostics panel](#troublenvim--diagnostics--references-panel)
+  - [todo-comments — track TODO/FIXME](#todo-commentsnvim--track-todofixme)
+  - [Treesitter text objects](#treesitter-text-objects)
   - [Passive plugins](#passive-plugins-no-keys-needed)
 - [Tips & tricks (coming from VS Code)](#-tips--tricks-coming-from-vs-code)
 
@@ -612,6 +624,75 @@ Standard LSP keys ([above](#lsp-lsp-zero--mason)) also work in Go files.
 Forgot a shortcut? Press **`<leader>`** (or any prefix like `g`) and **wait ~0.9s**
 — a popup lists every key you can press next and what it does. This is the
 in-editor version of this README. No setup needed.
+
+### nvim-surround — surround text
+
+Add, change, or delete the characters *around* text (quotes, brackets, tags).
+
+| Shortcut | Action | Example |
+| --- | --- | --- |
+| `ys{motion}{char}` | Add surround | `ysiw)` → wrap word in `()` |
+| `cs{old}{new}` | Change surround | `cs"'` → `"hi"` becomes `'hi'` |
+| `ds{char}` | Delete surround | `ds(` → remove parentheses |
+| `S{char}` (visual) | Surround selection | select, `S]` → wrap in `[]` |
+
+Mnemonics: **y**ank-**s**urround (add), **c**hange-**s**urround, **d**elete-**s**urround.
+
+### flash.nvim — jump anywhere
+
+Jump to any spot on screen in a few keystrokes instead of counting lines.
+
+| Key | Action |
+| --- | --- |
+| `s` | Type `s` then 1–2 chars of your target → labels appear, press the label to jump |
+| `S` | Jump by treesitter node (structural select) |
+| `r` (in operator) | Remote flash — e.g. `yr` then jump to yank a distant text object |
+
+Works in normal, visual, and operator-pending mode (so `ds` + `s`-jump composes).
+
+### trouble.nvim — diagnostics / references panel
+
+A tidy panel listing all diagnostics, references, or quickfix entries so you can
+step through them instead of one floating window at a time. All under `<leader>x`:
+
+| Key | Opens |
+| --- | --- |
+| `<leader>xx` | All diagnostics (project) |
+| `<leader>xX` | Diagnostics for the current buffer only |
+| `<leader>xr` | LSP references / definitions |
+| `<leader>xs` | Document symbols outline |
+| `<leader>xL` | Location list |
+| `<leader>xQ` | Quickfix list |
+| `<leader>xt` | TODO comments (see below) |
+
+Inside the panel: `j`/`k` to move, `<CR>` to jump to the item, `q` to close.
+
+### todo-comments.nvim — track TODO/FIXME
+
+Highlights comment tags like `TODO:`, `FIXME:`, `HACK:`, `NOTE:` and lets you
+find and jump between them.
+
+| Key | Action |
+| --- | --- |
+| `<leader>ft` | Search all TODOs (Telescope) |
+| `<leader>xt` | List all TODOs in the Trouble panel |
+| `]t` / `[t` | Jump to next / previous TODO comment |
+
+### Treesitter text objects
+
+Select and move by code structure — functions, classes, parameters (part of the
+[Treesitter](#treesitter) setup).
+
+| Key | Selects / moves to |
+| --- | --- |
+| `af` / `if` | A **f**unction (outer / inner) — e.g. `vaf`, `daf`, `cif` |
+| `ac` / `ic` | A **c**lass (outer / inner) |
+| `aa` / `ia` | A parameter/**a**rgument (outer / inner) |
+| `]m` / `[m` | Next / previous function start |
+| `]]` / `[[` | Next / previous class start |
+
+Combine with any operator: `daf` delete a function, `vif` select a function body,
+`cia` change an argument.
 
 ### Passive plugins (no keys needed)
 
