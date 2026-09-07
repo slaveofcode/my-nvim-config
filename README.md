@@ -2,7 +2,7 @@
 
 A [lazy.nvim](https://github.com/folke/lazy.nvim)-managed Neovim setup with LSP
 (via lsp-zero), fuzzy finding (Telescope + fzf-native), Git integration, a
-terminal, Rust/Go tooling, ChatGPT, and Markdown preview.
+terminal, Rust/Go tooling, and Markdown preview.
 
 > **This README is your cheat sheet.** Whenever you forget how a plugin works,
 > come back here — every plugin has its commands, shortcuts, and a short
@@ -28,7 +28,6 @@ terminal, Rust/Go tooling, ChatGPT, and Markdown preview.
   - [flatten — open files from terminal](#flatten--open-files-from-terminal)
   - [bufferline — tab line](#bufferline--tab-line)
   - [markdown-preview](#markdown-preview)
-  - [ChatGPT](#chatgpt)
   - [rust-tools — Rust](#rust-tools--rust)
   - [go.nvim — Go](#gonvim--go)
   - [which-key](#which-key)
@@ -54,7 +53,6 @@ lua/kresna/
 - `node` — for markdown-preview (the binary is auto-downloaded on install)
 - A [Nerd Font](https://www.nerdfonts.com/) — icons in the tree, statusline, bufferline
 - A true-color terminal (iTerm2, WezTerm, Kitty, …) — `termguicolors` is on
-- `OPENAI_API_KEY` in your environment — for ChatGPT
 - Language servers install on demand via **Mason** (`:Mason`)
 
 ---
@@ -338,31 +336,6 @@ Live preview of a Markdown file in your **browser**, updating as you type.
 **How to use:** open any `.md` file and press `<leader>mp` — your browser opens
 with the rendered preview and scrolls in sync. The preview closes automatically
 when you leave the buffer.
-
-### ChatGPT
-
-Ask ChatGPT from inside Neovim. **Requires `OPENAI_API_KEY`** in your environment.
-
-All under the `<leader>c` prefix (works on a visual selection too):
-
-| Key | Action |
-| --- | --- |
-| `<leader>cc` | Open ChatGPT |
-| `<leader>ce` | Edit with instruction |
-| `<leader>cg` | Grammar correction |
-| `<leader>ct` | Translate |
-| `<leader>ck` | Keywords |
-| `<leader>cd` | Docstring |
-| `<leader>ca` | Add tests |
-| `<leader>co` | Optimize code |
-| `<leader>cs` | Summarize |
-| `<leader>cf` | Fix bugs |
-| `<leader>cx` | Explain code |
-| `<leader>cr` | Roxygen edit |
-| `<leader>cl` | Code readability analysis |
-
-**How to use:** select some code in visual mode, then e.g. `<leader>cx` to have
-it explained, or `<leader>cf` to get a bug fix.
 
 ### rust-tools — Rust
 
