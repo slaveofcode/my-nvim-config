@@ -682,6 +682,49 @@ whole project recursively (respecting `.gitignore`).
 - **Find the word under the cursor across files:** see `grep_string` —
   `:lua require('telescope.builtin').grep_string()` (treats it as literal text).
 
+### Working with Git (diffs, blame, history)
+
+This config has **no `git commit` UI plugin** — you run git commands in the
+terminal (`<C-\>`), and two plugins give you the visual side: **gitsigns** (in
+the file you're editing) and **diffview** (full-screen diffs & history). The
+branch + `+/-` change counts also show in the statusline (lualine).
+
+**See what changed — in the current file (gitsigns).**
+Changed lines are marked in the gutter (`│` add/change, `_` delete). Then:
+
+| Command | Does |
+| --- | --- |
+| `:Gitsigns preview_hunk` | Pop up the **diff** of the change under the cursor |
+| `:Gitsigns next_hunk` / `prev_hunk` | Jump to the next / previous change |
+| `:Gitsigns blame_line` | Who last changed this line (full commit popup) |
+| `:Gitsigns diffthis` | Split-diff the file vs the index (staged version) |
+| `:Gitsigns stage_hunk` / `undo_stage_hunk` | Stage / unstage just this hunk |
+| `:Gitsigns reset_hunk` | Discard this hunk's changes |
+| `:Gitsigns toggle_current_line_blame` | Turn the inline blame (author · date) on/off |
+
+Inline blame is **on by default** — the author and summary of the current line
+show faded at the end of the line.
+
+**See the full diff / history (diffview).**
+
+| Command | Does |
+| --- | --- |
+| `:DiffviewOpen` | Side-by-side diff of **all** uncommitted changes vs HEAD |
+| `:DiffviewOpen HEAD~2` | Diff the working tree against 2 commits back |
+| `:DiffviewOpen main..HEAD` | Diff your branch against `main` |
+| `:DiffviewFileHistory %` | **History of the current file** — walk every commit that touched it |
+| `:DiffviewFileHistory` | History of the whole repo |
+| `:DiffviewClose` | Close the diff view |
+
+Inside it: `<Tab>` / `<S-Tab>` move between files, `<CR>` opens a file's diff,
+`<leader>e` toggles the file panel. See [diffview](#diffview--diffs--merge-conflicts).
+
+**Commit, push, branch, etc.** Open the terminal with `<C-\>` and run git
+normally (`git add -p`, `git commit`, `git push`, `git switch -c feature`…).
+When `git commit` opens its message editor, **flatten.nvim** opens it in your
+current Neovim — write the message and `:wq` to finish (`:q!` to abort). See
+[Quitting Vim](#quitting-vim--the-editor-opened-inside-the-terminal-trap).
+
 ### Jump to a file that has a git conflict
 
 After a `git merge`/`git rebase`/`git pull` leaves conflicts, here are the ways
