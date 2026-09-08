@@ -930,4 +930,9 @@ it and drops you back to the terminal. Still stuck at a terminal prompt? Run
   to see what's actually deprecated.
 - `neo-tree.lua_disable` and `typescript-tools.lua_disable` are disabled specs —
   rename them back to `.lua` to re-enable.
+- `queries/markdown/injections.scm` overrides nvim-treesitter's markdown
+  injection query. Its `#set-lang-from-info-string!` directive crashes on
+  Neovim 0.12 (the query-match API changed to a list of nodes), so this file
+  swaps in the crash-safe, Neovim-native version. Don't delete it unless you
+  move nvim-treesitter to its `main` branch.
 - Health check for the whole setup: `:checkhealth`.
