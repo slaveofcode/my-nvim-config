@@ -941,27 +941,58 @@ to find and open the conflicted files:
 | `:qa` | Quit **all** windows/tabs |
 | `:qa!` | Quit everything, discard all changes |
 
-**The terminal-inside-Vim situation.** You opened the built-in terminal
-(`<C-\>`), ran something, and an editor popped open — e.g. you typed
-`nvim file`, or ran `git commit` and its message editor appeared. Here's what's
-happening and how to get out:
+**The `git commit` (editor-inside-the-terminal) trap.** You opened the terminal
+(`<C-\>`), ran `git commit`, and its message editor appeared. There are **two
+situations** and the escape is different — pressing `:q` in the wrong one just
+closes the toggleterm window (the trap!).
 
-- Thanks to **flatten.nvim**, that file does **not** open a second, nested
-  Neovim — it opens as a normal buffer in your **current** Neovim. So you're not
-  trapped in a sub-editor; you're just in another buffer.
-- **To get back:** press `<Esc>` to make sure you're in normal mode, then `:q`
-  (or `:bd` to close the buffer). You return to your session.
-- **For a `git commit` / rebase:** the terminal hides itself while you write the
-  message. Type it, then `:wq` to save & close — the commit runs and the
-  terminal comes back automatically. To **abort** the commit instead, `:q!`
-  (empty/unsaved message cancels it).
+**First, tell which one you're in — look at the statusline:**
 
-**If you truly get stuck** (a genuinely nested `nvim`, no flatten): `:qa` exits
-it and drops you back to the terminal. Still stuck at a terminal prompt? Run
-`exit` to close the terminal buffer, or `<C-\>` to toggle it away.
+- If it shows **`COMMIT_EDITMSG`** → flatten opened it as a normal buffer
+  (Situation A).
+- If it shows **`…#toggleterm#…`** (like `zsh;#toggleterm#1`) → a **nested nvim**
+  is running *inside* the terminal, and you've escaped to the outer nvim
+  (Situation B). This is the one that traps you.
 
-> Rule of thumb: **`<Esc>` → `:q`** gets you out of almost anything. Add `!` to
-> discard changes, `a` to close everything.
+**Situation A — flatten opened the commit buffer (best case).**
+The terminal hides itself and the commit message is a real buffer in your Neovim.
+
+- Write the message, then **`:wq`** (or `ZZ`) → the commit completes and the
+  terminal reappears.
+- To **abort**: `:q!` (an empty/unsaved message cancels the commit).
+
+**Situation B — a nested nvim is running inside the terminal (your screenshot).**
+Do **not** press `:q` here — in the outer nvim that closes the toggleterm split
+and leaves the commit hanging. Instead, send your keys *into* the inner editor:
+
+1. **Get back into the terminal:** move the cursor to the terminal window and
+   press **`i`** (or `a`) to enter terminal mode. Now your keystrokes go to the
+   *inner* nvim (which is sitting in normal mode on the commit message).
+2. **Finish the commit:** type **`:wq`** then `Enter`. The inner nvim saves
+   `COMMIT_EDITMSG` and exits, git makes the commit, and you land back at the
+   shell prompt.
+3. **To abort instead:** type **`:cq`** (quit with error → git cancels) or `:q!`.
+
+> **Why it traps you:** you pressed `<Esc>`/`jk` (the toggleterm mappings) which
+> left terminal mode and put you in the *outer* nvim. From there `:q` acts on the
+> outer nvim → it closes the terminal window. The inner nvim only hears you while
+> you're in terminal mode (`i`).
+
+**Prevent Situation B — make flatten always catch it.** Nested editors happen
+when git launches its own editor without connecting to your running Neovim. Set
+your git editor to plain `nvim` so flatten's guest hook intercepts it:
+
+```bash
+git config --global core.editor nvim
+# and in your shell profile (~/.zshrc):
+export EDITOR=nvim
+```
+
+**Any other stuck case:** `:qa` quits all nvim windows; at a bare terminal prompt
+run `exit`, or `<C-\>` to toggle the terminal away.
+
+> Rule of thumb: in the **outer** nvim, `<Esc>` → `:q`. Inside a **nested** nvim
+> (statusline shows `#toggleterm`), `i` first, then `:wq`.
 
 ---
 
