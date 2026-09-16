@@ -801,6 +801,24 @@ whole project recursively (respecting `.gitignore`).
 - **Find the word under the cursor across files:** see `grep_string` —
   `:lua require('telescope.builtin').grep_string()` (treats it as literal text).
 
+#### Example — find a variable name in any directory
+
+Say you're looking for `userId` across the whole project. Press `<leader>fg`, then type:
+
+| You type | Finds | Case |
+| --- | --- | --- |
+| `userId` | `userId` (uppercase present → exact case) | **sensitive** |
+| `userid` | `userId`, `userid`, `USERID`, `UserId`… | **insensitive** (all-lowercase = smart-case) |
+| `(?i)userId` | same as above, forced | **insensitive** (explicit) |
+| `(?-i)userid` | only literal `userid` | **sensitive** (explicit) |
+| `\buserId\b` | `userId` but **not** `userIdList` or `myUserId` | whole word only |
+
+So the rule of thumb: **type it all-lowercase to ignore case, or include a capital
+(or use `(?-i)`) to match case exactly.** Wrap it in `\b…\b` when you want the
+whole identifier and not substrings. It searches every subdirectory by default
+(honoring `.gitignore`); to limit it to some folders, use the `search_dirs` form
+above. `<CR>` opens a hit; `<C-q>` sends them all to the quickfix list.
+
 ### Working with Git (diffs, blame, history)
 
 The **fastest way to do anything git** is **lazygit** — press **`<leader>gg`**
