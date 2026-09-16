@@ -1013,6 +1013,22 @@ the very last window).
 > A split shows the *same or another buffer* — closing it doesn't delete the
 > file or the buffer. To also drop the buffer from memory, use `:bd`.
 
+**Close an unsaved / scratch buffer (and the `E784` trap)**
+
+Got `E784: Cannot close last tab page` when pressing `<leader>tx`? That means
+it's the **only** tab — you can't close a tab when it's the last one. What you
+usually want is to drop the (unsaved `[No Name] [+]`) buffer instead:
+
+| Command | Does |
+| --- | --- |
+| `:bd!` | **Discard** the buffer's unsaved changes and close it (leaves a fresh empty buffer if it was the only one) |
+| `:enew!` | Replace it with a new empty buffer, abandoning changes |
+| `:q!` | Quit the window discarding changes (quits Neovim if it's the last) |
+
+The **`!`** is what forces past unsaved changes — plain `:bd` / `:q` refuse with
+`E37` when the buffer is modified. So: unsaved scratch tab you don't care about →
+just **`:bd!`**.
+
 ### Quitting Vim & the "editor opened inside the terminal" trap
 
 **How to quit at all** (do this from **normal** mode — press `<Esc>` first if you're typing):
