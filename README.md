@@ -402,6 +402,9 @@ A sidebar file tree (replaces netrw).
 | Key | Action |
 | --- | --- |
 | `<CR>` / `o` | Open file / expand folder |
+| `<C-t>` | Open the file in a **new tab** |
+| `<C-v>` | Open in a **vertical** split |
+| `<C-x>` | Open in a **horizontal** split |
 | `a` | Create file or folder (end with `/` for a folder) |
 | `d` | Delete |
 | `r` | Rename |
@@ -412,6 +415,26 @@ A sidebar file tree (replaces netrw).
 
 **How to use:** `<leader>ee` to open the tree focused on your current file,
 navigate with `j`/`k`, `<CR>` to open, `a` to create new files.
+
+**Open several files in tabs from the sidebar & switch between them.**
+The tabs appear along the top bar (bufferline, in tabs mode).
+
+1. Open the tree (`<leader>ee`) and move to a file with `j`/`k`.
+2. Press **`<C-t>`** to open it in a **new tab**. The tree stays open.
+3. Move to another file and press `<C-t>` again — repeat for as many tabs as you want.
+4. **Switch between tabs:**
+
+| Key | Action |
+| --- | --- |
+| `<leader>tn` | Next tab |
+| `<leader>tp` | Previous tab |
+| `gt` / `gT` | Next / previous tab (built-in) |
+| `1gt`, `2gt`, … | Jump straight to tab **N** |
+| `<leader>tx` | Close the current tab |
+| `<leader>to` | Open a new empty tab |
+
+You can also click a tab in the top bar. See [bufferline](#bufferline--tab-line)
+and the [tab keymaps](#tabs).
 
 ### LSP (lsp-zero + Mason)
 
