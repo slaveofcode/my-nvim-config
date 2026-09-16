@@ -54,6 +54,14 @@ return {
       git = {
         ignore = false,
       },
+      -- Share the tree across tabs: if it's open, it appears in every tab you
+      -- switch to; closing it in one tab closes it everywhere.
+      tab = {
+        sync = {
+          open = true,
+          close = true,
+        },
+      },
 
     })
 

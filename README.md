@@ -416,6 +416,10 @@ A sidebar file tree (replaces netrw).
 **How to use:** `<leader>ee` to open the tree focused on your current file,
 navigate with `j`/`k`, `<CR>` to open, `a` to create new files.
 
+**Shared across tabs.** The tree is synced (`tab.sync`): once it's open it shows
+in **every** tab you switch to, and closing it in one tab closes it everywhere —
+so you get a consistent sidebar no matter which tab you're on.
+
 **Open several files in tabs from the sidebar & switch between them.**
 The tabs appear along the top bar (bufferline, in tabs mode).
 
