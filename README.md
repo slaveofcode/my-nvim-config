@@ -951,6 +951,39 @@ to find and open the conflicted files:
 > (yank) and `p` (paste) already use your **system clipboard** — no need for a
 > special register. `<leader>y` is just an explicit alias.
 
+### Closing tabs, splits & windows
+
+Handy distinction: a **split** is a window pane in the current tab; a **tab** is a
+whole separate layout of windows. Closing one doesn't quit Neovim (unless it's
+the very last window).
+
+**Close a tab**
+
+| Key / command | Does |
+| --- | --- |
+| `<leader>tx` | Close the **current tab** |
+| `:tabclose` | Same as above |
+| `:tabonly` | Close **all other** tabs (keep the current one) |
+
+**Close a split / window**
+
+| Key / command | Does |
+| --- | --- |
+| `<leader>sx` | Close the **current split** |
+| `<C-w>c` | Close the current window (built-in) |
+| `<C-w>o` | Close **all other** windows (keep only the current) |
+| `:q` | Close the current window (quits Neovim if it's the last one) |
+
+**Close the file explorer**
+
+| Key | Does |
+| --- | --- |
+| `<leader>ee` | Toggle the tree off (and on) |
+| `<leader>ec` | Collapse the tree |
+
+> A split shows the *same or another buffer* — closing it doesn't delete the
+> file or the buffer. To also drop the buffer from memory, use `:bd`.
+
 ### Quitting Vim & the "editor opened inside the terminal" trap
 
 **How to quit at all** (do this from **normal** mode — press `<Esc>` first if you're typing):
