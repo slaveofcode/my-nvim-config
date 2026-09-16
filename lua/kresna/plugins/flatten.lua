@@ -6,7 +6,12 @@ return {
 
     return {
       window = {
-        open = "alternate",
+        -- Open files sent from the terminal (e.g. the `git commit` message) in a
+        -- dedicated NEW TAB, full-screen. "alternate" reused whatever window was
+        -- beside it, which produced a messy split next to a blank [No Name]
+        -- buffer for commit messages. A clean tab avoids that; :wq closes it and
+        -- the commit continues.
+        open = "tab",
       },
       -- NOTE: this key used to be `callbacks`; flatten renamed it to `hooks`.
       -- Using `callbacks` triggers a back-compat path that wipes the default

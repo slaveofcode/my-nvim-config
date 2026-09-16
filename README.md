@@ -611,8 +611,12 @@ Your process keeps running the whole time; switching tabs just hides the float.
 ### flatten — open files from terminal
 
 When you run `nvim <file>` from *inside* the toggleterm terminal, it opens the
-file in your **existing** Neovim instead of nesting a new one. No keys needed —
-it just works. Great for `git commit` opening its message in the current editor.
+file in your **existing** Neovim instead of nesting a new one. It opens in a
+**new tab** (full-screen, clean) — so `git commit` shows its message in its own
+tab; write it and `:wq`, the tab closes and the commit continues. No keys needed.
+
+> Requires git's editor to be `nvim` so flatten can catch it —
+> `git config --global core.editor nvim` (already set on this machine).
 
 ### bufferline — tab line
 
@@ -918,9 +922,9 @@ Inside it: `<Tab>` / `<S-Tab>` move between files, `<CR>` opens a file's diff,
 **Commit, push, branch, etc.** Easiest is **`<leader>gg`** (lazygit) — stage with
 `Space`, commit with `c`, push with `P`, quit with `q`. Or open the terminal with
 `<C-\>` and run git normally (`git add -p`, `git commit`, `git push`…); when
-`git commit` opens its message editor, **flatten.nvim** opens it in your current
-Neovim — write the message and `:wq` to finish (`:q!` to abort). See
-[Quitting Vim](#quitting-vim--the-editor-opened-inside-the-terminal-trap).
+`git commit` opens its message editor, **flatten.nvim** opens it in a **new tab**
+in your current Neovim — write the message and `:wq` to finish (`:q!` to abort).
+See [Quitting Vim](#quitting-vim--the-editor-opened-inside-the-terminal-trap).
 
 ### Jump to a file that has a git conflict
 
@@ -1055,11 +1059,13 @@ closes the toggleterm window (the trap!).
   is running *inside* the terminal, and you've escaped to the outer nvim
   (Situation B). This is the one that traps you.
 
-**Situation A — flatten opened the commit buffer (best case).**
-The terminal hides itself and the commit message is a real buffer in your Neovim.
+**Situation A — flatten opened the commit in a new tab (the normal case here).**
+With `core.editor=nvim`, flatten opens the commit message in a **dedicated,
+full-screen tab** (not a split, not a blank buffer — that older mess came from
+flatten's `open="alternate"`; this config now uses `open="tab"`).
 
-- Write the message, then **`:wq`** (or `ZZ`) → the commit completes and the
-  terminal reappears.
+- Write the message, then **`:wq`** (or `ZZ`) → the tab closes, the commit
+  completes, and you're back where you were.
 - To **abort**: `:q!` (an empty/unsaved message cancels the commit).
 
 **Situation B — a nested nvim is running inside the terminal (your screenshot).**
