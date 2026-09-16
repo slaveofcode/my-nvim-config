@@ -92,9 +92,33 @@ must be installed via `:Mason` (check with `:LspInfo` if a key does nothing).
 | `<C-o>` | **Jump back** | Return to where you jumped from |
 | `<C-i>` | **Jump forward** | Redo a jump (opposite of `<C-o>`) |
 
-**Typical flow:** cursor on a function call → `gd` to read its definition →
-`<C-o>` to jump back. Use `gr` to see everywhere it's called, `gi` to find
-what implements an interface.
+**Go to definition — even in another file.** Put the cursor on a function or
+variable and press **`gd`**. If its definition lives in a *different* file,
+Neovim **opens that file automatically** and jumps to the exact line. Works the
+same whether the definition is in the same file or across the project.
+
+**Go back — one or several jumps.** Each jump is remembered in the **jumplist**,
+so you can retrace your steps:
+
+```
+gd        jump to the definition (opens the related file)
+gd        follow another symbol from there (opens yet another file)
+<C-o>     go back one step  (returns to the previous location)
+<C-o>     go back again     (press it as many times as you jumped)
+<C-o>     …keep going back through the whole trail
+<C-i>     go forward again  (undo a <C-o>, i.e. re-follow the trail)
+```
+
+So to return to where you started after digging several files deep, just press
+**`<C-o>` repeatedly** — once per jump you made. `<C-i>` (Ctrl+I, same as `Tab`)
+walks forward again. Run **`:jumps`** to see the full list, or `3<C-o>` to jump
+back 3 entries at once.
+
+> Tip: `<C-o>` / `<C-i>` work for *any* jump, not just `gd` — searches (`/`),
+> `G`, `gg`, `]m`, etc. all feed the same jumplist.
+
+**Also handy:** `gr` lists everywhere a symbol is used, `gi` finds what
+implements an interface, `K` shows its docs without moving.
 
 ## Table of contents
 
