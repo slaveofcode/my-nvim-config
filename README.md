@@ -584,19 +584,29 @@ then save and `:DiffviewClose`.
 
 ### toggleterm — terminal
 
-An integrated terminal.
+An integrated terminal that **floats** over the editor.
 
 | Key | Mode | Action |
 | --- | --- | --- |
-| `<C-\>` | Normal / Terminal | Toggle the terminal |
+| `<C-\>` | Normal / Terminal | Toggle the terminal (floating) |
 | `<Esc>` or `jk` | Terminal | Leave insert (to normal mode) |
 | `<C-h/j/k/l>` | Terminal | Move to the window left/down/up/right |
 
-**Commands:** `:ToggleTerm`, `:ToggleTerm direction=float`,
+**Commands:** `:ToggleTerm`, `:ToggleTerm direction=horizontal`,
 `:ToggleTerm direction=vertical`, `:TermExec cmd="npm test"`.
 
-**How to use:** `<C-\>` opens a horizontal terminal at the bottom. Prefix with a
-count to open numbered terminals — e.g. `2<C-\>` opens/toggles terminal #2.
+**How to use:** `<C-\>` opens a floating terminal over the current tab. Prefix
+with a count to open numbered terminals — e.g. `2<C-\>` opens/toggles terminal #2.
+
+**Shared across tabs.** The terminal is a **float**, so it isn't tied to any one
+tab's window layout. Open it in one tab, switch to another, press `<C-\>` — the
+**same** terminal (same shell, same running command) appears over the new tab.
+Your process keeps running the whole time; switching tabs just hides the float.
+
+> Why not a bottom split? A horizontal/vertical terminal is a window *inside* one
+> tab, so it vanishes when you switch tabs and `<C-\>` there won't pull it over.
+> The float avoids that. You can still get a bottom one anytime with
+> `:ToggleTerm direction=horizontal`.
 
 ### flatten — open files from terminal
 

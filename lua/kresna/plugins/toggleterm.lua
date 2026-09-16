@@ -20,7 +20,16 @@ return {
     terminal_mappings = true, -- whether or not the open mapping applies in the opened terminals
     persist_size = true,
     persist_mode = true, -- if set to true (default) the previous terminal mode will be remembered
-    direction = 'horizontal', -- 'vertical' | 'horizontal' | 'tab' | 'float',
+    -- Float so the SAME terminal is reachable from any tab: a floating window
+    -- isn't part of a tab's layout, so <C-\> shows it over whichever tab you're
+    -- on (the shell/process persists across tabs).
+    direction = 'float', -- 'vertical' | 'horizontal' | 'tab' | 'float',
+    float_opts = {
+      border = 'curved', -- 'single' | 'double' | 'shadow' | 'curved'
+      width = function() return math.floor(vim.o.columns * 0.85) end,
+      height = function() return math.floor(vim.o.lines * 0.8) end,
+      winblend = 0,
+    },
     close_on_exit = true, -- close the terminal window when the process exits
      -- Change the default shell. Can be a string or a function returning a string
     shell = vim.o.shell,
