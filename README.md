@@ -941,6 +941,25 @@ to find and open the conflicted files:
 - **Inside a conflicted file:** the markers are `<<<<<<<`, `=======`, `>>>>>>>`.
   Search to the next one with `/<<<<<<<` then `Enter` (or `n` to repeat).
 
+### Reload a file changed by git pull (or edited outside nvim)
+
+When `git pull` (or another tool) changes a file you already have open, Neovim
+keeps showing the **old** version until you reload it from disk.
+
+| Command | Does |
+| --- | --- |
+| `:e` | Reload the **current** file from disk |
+| `:e!` | Force reload, **discarding** your unsaved edits |
+| `:checktime` | Reload **all** open buffers that changed on disk (keeps ones you've edited) |
+| `<leader>er` | Refresh the nvim-tree sidebar (show new / deleted files) |
+
+**Typical flow after a pull:** `:e` in the open file (or `:checktime` if several
+are open across tabs). Gitsigns updates the gutter automatically.
+
+> `autoread` is on, but nothing auto-triggers it in this config, so reload
+> manually with `:e` / `:checktime`. (Ask if you want it to reload automatically
+> when you switch back to Neovim.)
+
 ### Handy one-liners
 
 | Task | How |
