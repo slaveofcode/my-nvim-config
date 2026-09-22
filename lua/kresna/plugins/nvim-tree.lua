@@ -16,8 +16,35 @@ return {
     vim.cmd([[ highlight NvimTreeFolderArrowClosed guifg=#3FC5FF ]])
     vim.cmd([[ highlight NvimTreeFolderArrowOpen guifg=#3FC5FF ]])
 
-    -- empty setup using defaults
+    -- Keep nvim-tree's default keys, then add our own.
+    -- `t` opens a floating terminal in the directory under the cursor.
+    local function on_attach(bufnr)
+      local api = require("nvim-tree.api")
+      api.config.mappings.default_on_attach(bufnr) -- apply all default mappings
+
+      vim.keymap.set("n", "t", function()
+        local node = api.tree.get_node_under_cursor()
+        local dir
+        if node and node.absolute_path then
+          dir = node.type == "directory" and node.absolute_path
+            or vim.fn.fnamemodify(node.absolute_path, ":h")
+        else
+          dir = vim.fn.getcwd()
+        end
+        require("toggleterm.terminal").Terminal
+          :new({ dir = dir, direction = "float", close_on_exit = true })
+          :toggle()
+      end, {
+        desc = "nvim-tree: open terminal in this folder",
+        buffer = bufnr,
+        noremap = true,
+        silent = true,
+        nowait = true, -- fire immediately, don't wait out timeoutlen for a `t` motion
+      })
+    end
+
     nvimtree.setup({
+      on_attach = on_attach,
       sort_by = "case_sensitive",
       view = {
         width = 35,
@@ -72,29 +99,6 @@ return {
     keymap.set("n", "<leader>ee", "<cmd>NvimTreeFindFileToggle<CR>", { desc = "Toggle file explorer on current file" }) -- toggle file explorer on current file
     keymap.set("n", "<leader>ec", "<cmd>NvimTreeCollapse<CR>", { desc = "Collapse file explorer" }) -- collapse file explorer
     keymap.set("n", "<leader>er", "<cmd>NvimTreeRefresh<CR>", { desc = "Refresh file explorer" }) -- refresh file explorer
-
-    -- Inside the tree, press `t` to open a floating terminal in the folder under
-    -- the cursor (the file's folder, or the directory itself).
-    vim.api.nvim_create_autocmd("FileType", {
-      pattern = "NvimTree",
-      callback = function()
-        keymap.set("n", "t", function()
-          local ok_api, api = pcall(require, "nvim-tree.api")
-          if not ok_api then return end
-          local node = api.tree.get_node_under_cursor()
-          local dir
-          if node and node.absolute_path then
-            dir = node.type == "directory" and node.absolute_path
-              or vim.fn.fnamemodify(node.absolute_path, ":h")
-          else
-            dir = vim.fn.getcwd()
-          end
-          require("toggleterm.terminal").Terminal
-            :new({ dir = dir, direction = "float", close_on_exit = true })
-            :toggle()
-        end, { buffer = true, noremap = true, silent = true, desc = "Open terminal in this folder" })
-      end,
-    })
 
     -- autocmd BufEnter * if bufname('#') =~ 'NvimTree' && bufname('%') !~ 'NvimTree' && winnr('$') > 1 | execute "normal \<C-^>" | endif
     -- keymaps default 
