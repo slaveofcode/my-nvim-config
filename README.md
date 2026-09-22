@@ -403,6 +403,7 @@ A sidebar file tree (replaces netrw).
 | --- | --- |
 | `<CR>` / `o` | Open file / expand folder |
 | `t` | Open a **terminal in the folder under the cursor** (custom) |
+| `gl` | Open **lazygit for this folder's git repo** (custom) |
 | `<C-t>` | Open the file in a **new tab** |
 | `<C-v>` | Open in a **vertical** split |
 | `<C-x>` | Open in a **horizontal** split |
@@ -425,6 +426,12 @@ so you get a consistent sidebar no matter which tab you're on.
 in the tree and press **`t`** — a floating terminal opens **in that directory**
 (a file's parent folder). Pick the path in the tree, press `t`, and you're
 dropped into a shell there. `exit` or `<C-\>` closes it.
+
+**Open lazygit for a chosen repo.** Put the cursor on a folder (or file) and
+press **`gl`** — lazygit opens for the **git repo that folder belongs to**. In
+the monorepo, navigate to a service (e.g. `be/bridge`) and `gl` opens lazygit in
+*that* repo, no matter what file you have open elsewhere. (Warns if the folder
+isn't in a git repo.)
 
 **Open several files in tabs from the sidebar & switch between them.**
 The tabs appear along the top bar (bufferline, in tabs mode).

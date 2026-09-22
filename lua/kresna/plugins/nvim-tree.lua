@@ -16,23 +16,27 @@ return {
     vim.cmd([[ highlight NvimTreeFolderArrowClosed guifg=#3FC5FF ]])
     vim.cmd([[ highlight NvimTreeFolderArrowOpen guifg=#3FC5FF ]])
 
-    -- Keep nvim-tree's default keys, then add our own.
-    -- `t` opens a floating terminal in the directory under the cursor.
+    -- Keep nvim-tree's default keys, then add our own:
+    --   t   open a floating terminal in the folder under the cursor
+    --   gl  open lazygit for the git repo that folder belongs to
     local function on_attach(bufnr)
       local api = require("nvim-tree.api")
       api.config.mappings.default_on_attach(bufnr) -- apply all default mappings
 
-      vim.keymap.set("n", "t", function()
+      -- directory of the node under the cursor (a folder itself, or a file's parent)
+      local function node_dir()
         local node = api.tree.get_node_under_cursor()
-        local dir
         if node and node.absolute_path then
-          dir = node.type == "directory" and node.absolute_path
+          return node.type == "directory" and node.absolute_path
             or vim.fn.fnamemodify(node.absolute_path, ":h")
-        else
-          dir = vim.fn.getcwd()
         end
+        return vim.fn.getcwd()
+      end
+
+      -- t -> floating terminal in this folder
+      vim.keymap.set("n", "t", function()
         require("toggleterm.terminal").Terminal
-          :new({ dir = dir, direction = "float", close_on_exit = true })
+          :new({ dir = node_dir(), direction = "float", close_on_exit = true })
           :toggle()
       end, {
         desc = "nvim-tree: open terminal in this folder",
@@ -40,6 +44,22 @@ return {
         noremap = true,
         silent = true,
         nowait = true, -- fire immediately, don't wait out timeoutlen for a `t` motion
+      })
+
+      -- gl -> lazygit for this folder's git repo
+      vim.keymap.set("n", "gl", function()
+        local dir = node_dir()
+        local root = vim.fn.systemlist({ "git", "-C", dir, "rev-parse", "--show-toplevel" })[1]
+        if vim.v.shell_error ~= 0 or not root or root == "" then
+          vim.notify("lazygit: not inside a git repo: " .. dir, vim.log.levels.WARN)
+          return
+        end
+        require("lazygit").lazygit(root)
+      end, {
+        desc = "nvim-tree: open lazygit for this folder's repo",
+        buffer = bufnr,
+        noremap = true,
+        silent = true,
       })
     end
 
