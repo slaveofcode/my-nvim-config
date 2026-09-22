@@ -12,7 +12,12 @@ return {
     "nvim-lua/plenary.nvim", -- for the floating window
   },
   keys = {
-    { "<leader>gg", "<cmd>LazyGit<CR>", desc = "LazyGit (open git UI)" },
-    { "<leader>gf", "<cmd>LazyGitCurrentFile<CR>", desc = "LazyGit for current file's repo" },
+    -- Open lazygit for the repo of the file in the CURRENT tab/window. In a
+    -- monorepo (nested git repos per service) this picks the right repo,
+    -- unlike plain :LazyGit which uses Neovim's cwd.
+    { "<leader>gg", "<cmd>LazyGitCurrentFile<CR>", desc = "LazyGit (current tab's repo)" },
+    -- Explicit fallbacks:
+    { "<leader>gG", "<cmd>LazyGit<CR>", desc = "LazyGit (Neovim cwd / :pwd)" },
+    { "<leader>gf", "<cmd>LazyGitCurrentFile<CR>", desc = "LazyGit (current file's repo)" },
   },
 }

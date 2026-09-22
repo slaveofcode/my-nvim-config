@@ -61,8 +61,8 @@ for the full details and in-plugin keys.
 | `<CR>` | Confirm item | | `:Mason` | Install LSP servers |
 | `<C-f>` / `<C-b>` | Next / prev snippet stop | | `:checkhealth` | Diagnose the setup |
 | | | | **Git** | |
-| | | | `<leader>gg` | lazygit dashboard |
-| | | | `<leader>gf` | lazygit (current file's repo) |
+| | | | `<leader>gg` | lazygit (current tab's repo) |
+| | | | `<leader>gG` | lazygit (Neovim cwd) |
 | | | | **Edit & move** | |
 | | | | `s` + chars | Flash jump anywhere |
 | | | | `ysiw)` `cs"'` `ds(` | Surround add/change/delete |
@@ -513,13 +513,20 @@ browse history — the closest thing to a git GUI.
 
 | Key | Action |
 | --- | --- |
-| `<leader>gg` | Open lazygit for the project |
-| `<leader>gf` | Open lazygit for the current file's repo |
+| `<leader>gg` | Open lazygit for the **current tab's repo** (the file you're editing) |
+| `<leader>gf` | Same — lazygit for the current file's repo |
+| `<leader>gG` | Open lazygit for Neovim's **cwd** (`:pwd`) |
+
+> **Monorepo note:** each service (e.g. `be/bridge`) is its own git repo, so
+> `<leader>gg` uses the **open file's** repo — open a file in the service you
+> want first, then `<leader>gg`. Plain `:LazyGit`/`<leader>gG` uses Neovim's cwd,
+> which is often the wrong repo. You can also point it explicitly:
+> `:lua require('lazygit').lazygit('/abs/path/to/repo')`.
 
 | Command | Does |
 | --- | --- |
-| `:LazyGit` | Open the dashboard |
-| `:LazyGitCurrentFile` | Open it scoped to the current file's repo |
+| `:LazyGitCurrentFile` | Open scoped to the current file's repo (what `<leader>gg` runs) |
+| `:LazyGit` | Open at Neovim's cwd |
 | `:LazyGitFilter` | Browse commits (project) |
 
 **Inside lazygit** (the essentials — press `?` for the full list):
