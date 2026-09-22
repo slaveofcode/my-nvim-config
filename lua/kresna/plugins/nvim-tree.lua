@@ -73,6 +73,29 @@ return {
     keymap.set("n", "<leader>ec", "<cmd>NvimTreeCollapse<CR>", { desc = "Collapse file explorer" }) -- collapse file explorer
     keymap.set("n", "<leader>er", "<cmd>NvimTreeRefresh<CR>", { desc = "Refresh file explorer" }) -- refresh file explorer
 
+    -- Inside the tree, press `t` to open a floating terminal in the folder under
+    -- the cursor (the file's folder, or the directory itself).
+    vim.api.nvim_create_autocmd("FileType", {
+      pattern = "NvimTree",
+      callback = function()
+        keymap.set("n", "t", function()
+          local ok_api, api = pcall(require, "nvim-tree.api")
+          if not ok_api then return end
+          local node = api.tree.get_node_under_cursor()
+          local dir
+          if node and node.absolute_path then
+            dir = node.type == "directory" and node.absolute_path
+              or vim.fn.fnamemodify(node.absolute_path, ":h")
+          else
+            dir = vim.fn.getcwd()
+          end
+          require("toggleterm.terminal").Terminal
+            :new({ dir = dir, direction = "float", close_on_exit = true })
+            :toggle()
+        end, { buffer = true, noremap = true, silent = true, desc = "Open terminal in this folder" })
+      end,
+    })
+
     -- autocmd BufEnter * if bufname('#') =~ 'NvimTree' && bufname('%') !~ 'NvimTree' && winnr('$') > 1 | execute "normal \<C-^>" | endif
     -- keymaps default 
     -- https://github.com/nvim-tree/nvim-tree.lua/blob/master/doc/nvim-tree-lua.txt

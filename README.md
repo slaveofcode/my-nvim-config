@@ -402,6 +402,7 @@ A sidebar file tree (replaces netrw).
 | Key | Action |
 | --- | --- |
 | `<CR>` / `o` | Open file / expand folder |
+| `t` | Open a **terminal in the folder under the cursor** (custom) |
 | `<C-t>` | Open the file in a **new tab** |
 | `<C-v>` | Open in a **vertical** split |
 | `<C-x>` | Open in a **horizontal** split |
@@ -419,6 +420,11 @@ navigate with `j`/`k`, `<CR>` to open, `a` to create new files.
 **Shared across tabs.** The tree is synced (`tab.sync`): once it's open it shows
 in **every** tab you switch to, and closing it in one tab closes it everywhere —
 so you get a consistent sidebar no matter which tab you're on.
+
+**Open a terminal at a chosen path.** Move the cursor onto any folder (or file)
+in the tree and press **`t`** — a floating terminal opens **in that directory**
+(a file's parent folder). Pick the path in the tree, press `t`, and you're
+dropped into a shell there. `exit` or `<C-\>` closes it.
 
 **Open several files in tabs from the sidebar & switch between them.**
 The tabs appear along the top bar (bufferline, in tabs mode).
