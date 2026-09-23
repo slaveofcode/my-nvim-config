@@ -10,7 +10,16 @@ return {
   -- motions, hidden, triggers="auto") were renamed/removed — see
   -- ":checkhealth which-key". This keeps the same behavior with v3 options.
   opts = {
-    delay = 900, -- ms to wait before the popup appears (matches timeoutlen)
+    delay = 300, -- ms before the hint popup appears (snappy = better for learning)
+    -- Group labels so the popup is organized and self-explanatory.
+    spec = {
+      { "<leader>f", group = "find (telescope)" },
+      { "<leader>g", group = "git / lazygit" },
+      { "<leader>x", group = "diagnostics (trouble)" },
+      { "<leader>e", group = "explorer (tree)" },
+      { "<leader>s", group = "splits" },
+      { "<leader>t", group = "tabs" },
+    },
     plugins = {
       marks = true, -- show marks on ' and `
       registers = true, -- show registers on " (normal) / <C-r> (insert)

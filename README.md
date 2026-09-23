@@ -142,7 +142,9 @@ implements an interface, `K` shows its docs without moving.
   - [markdown-preview](#markdown-preview)
   - [rust-tools — Rust](#rust-tools--rust)
   - [go.nvim — Go](#gonvim--go)
-  - [which-key](#which-key)
+  - [which-key — the shortcut trainer](#which-key--the-shortcut-trainer)
+  - [precognition — motion hints](#precognition--motion-hints-in-the-buffer)
+  - [hardtime — break bad habits](#hardtime--break-bad-habits)
   - [nvim-surround — surround text](#nvim-surround--surround-text)
   - [flash.nvim — jump anywhere](#flashnvim--jump-anywhere)
   - [trouble.nvim — diagnostics panel](#troublenvim--diagnostics--references-panel)
@@ -704,11 +706,39 @@ Loads for `.go`/`go.mod` files.
 
 Standard LSP keys ([above](#lsp-lsp-zero--mason)) also work in Go files.
 
-### which-key
+### which-key — the shortcut trainer
 
-Forgot a shortcut? Press **`<leader>`** (or any prefix like `g`) and **wait ~0.9s**
-— a popup lists every key you can press next and what it does. This is the
-in-editor version of this README. No setup needed.
+**The main tool for memorizing shortcuts.** Press **`<leader>`** (Space) or any
+prefix (`g`, `z`, `<C-w>`, `"`, `` ` ``) and pause — a popup lists every key you
+can press next and what it does. Just using it teaches you the keys over time.
+
+- Popup appears after **~0.3s** (snappy, tuned for learning).
+- Prefixes are **grouped and labelled**: `<leader>f` → *+find*, `<leader>g` →
+  *+git*, `<leader>x` → *+diagnostics*, `<leader>e` → *+explorer*,
+  `<leader>s` → *+splits*, `<leader>t` → *+tabs*.
+- Works inside plugins too — e.g. `g` in nvim-tree shows `gl` (lazygit).
+
+### precognition — motion hints in the buffer
+
+Learn Vim **motions** (`w`, `b`, `e`, `f`, `%`, `^`, `$`, …) by seeing where each
+one jumps. Faint virtual markers appear over the text showing the target keys.
+
+| Key | Action |
+| --- | --- |
+| `<leader>uh` | Toggle the motion hints on/off |
+
+On by default. Toggle off with `<leader>uh` when you want a clean view; `:Precognition toggle` also works.
+
+### hardtime — break bad habits
+
+Nudges you toward efficient motions. When you spam `hjkl`/arrows, it **hints** a
+better key (it's set to `hint` mode, so it only suggests — it never blocks you).
+
+| Command | Does |
+| --- | --- |
+| `:Hardtime toggle` | Turn the nudges on/off |
+| `:Hardtime disable` / `enable` | Off / on |
+| `:Hardtime report` | Show your most-repeated keys |
 
 ### nvim-surround — surround text
 
