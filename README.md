@@ -731,8 +731,10 @@ On by default. Toggle off with `<leader>uh` when you want a clean view; `:Precog
 
 ### hardtime — break bad habits
 
-Nudges you toward efficient motions. When you spam `hjkl`/arrows, it **hints** a
-better key (it's set to `hint` mode, so it only suggests — it never blocks you).
+Nudges you toward efficient motions. When you spam `hjkl`, it **hints** a better
+key (it's set to `hint` mode, so it only suggests — it never blocks you). The
+**arrow keys are left enabled** here (hardtime disables them by default); they
+work normally.
 
 | Command | Does |
 | --- | --- |

@@ -7,6 +7,14 @@ return {
     -- (less frustrating than the default "block" while you're learning).
     restriction_mode = "hint",
     disable_mouse = false, -- keep the mouse usable
+    -- Re-enable the arrow keys (hardtime disables them by default). We keep the
+    -- hints for repeated hjkl/motions, but arrows work normally.
+    disabled_keys = {
+      ["<Up>"] = {},
+      ["<Down>"] = {},
+      ["<Left>"] = {},
+      ["<Right>"] = {},
+    },
   },
   -- Toggle it with :Hardtime toggle  (or :Hardtime disable / enable)
 }
