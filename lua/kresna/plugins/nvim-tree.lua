@@ -61,6 +61,15 @@ return {
         noremap = true,
         silent = true,
       })
+
+      -- <leader>cd -> make the folder under the cursor the tree root ("cd into").
+      -- Same as the default <C-]>; `-` (default) goes back up a level.
+      vim.keymap.set("n", "<leader>cd", api.tree.change_root_to_node, {
+        desc = "nvim-tree: set this folder as root",
+        buffer = bufnr,
+        noremap = true,
+        silent = true,
+      })
     end
 
     nvimtree.setup({

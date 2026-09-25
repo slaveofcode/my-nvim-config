@@ -404,6 +404,9 @@ A sidebar file tree (replaces netrw).
 | Key | Action |
 | --- | --- |
 | `<CR>` / `o` | Open file / expand folder |
+| `<leader>cd` | **Set the folder under the cursor as the tree root** (custom) |
+| `<C-]>` | Same — set folder as root ("CD"), built-in |
+| `-` | Go **up** a level (root → parent), built-in |
 | `t` | Open a **terminal in the folder under the cursor** (custom) |
 | `gl` | Open **lazygit for this folder's git repo** (custom) |
 | `<C-t>` | Open the file in a **new tab** |
@@ -434,6 +437,11 @@ press **`gl`** — lazygit opens for the **git repo that folder belongs to**. In
 the monorepo, navigate to a service (e.g. `be/bridge`) and `gl` opens lazygit in
 *that* repo, no matter what file you have open elsewhere. (Warns if the folder
 isn't in a git repo.)
+
+**Focus the tree on one folder (change root).** Put the cursor on a folder and
+press **`<leader>cd`** (or the built-in `<C-]>`) — that folder becomes the tree
+root, so the sidebar shows only its contents. Great for zooming into one service
+(e.g. `ai/tabot`) in a big monorepo. Press **`-`** to go back up a level.
 
 **Open several files in tabs from the sidebar & switch between them.**
 The tabs appear along the top bar (bufferline, in tabs mode).
