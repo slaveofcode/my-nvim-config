@@ -1040,6 +1040,32 @@ are open across tabs). Gitsigns updates the gutter automatically.
 > (yank) and `p` (paste) already use your **system clipboard** — no need for a
 > special register. `<leader>y` is just an explicit alias.
 
+### Create a new file / blank buffer / blank tab
+
+You don't have to save anything first — Neovim opens an empty **`[No Name]`**
+buffer you can type into, and you only turn it into a file when *you* choose to.
+
+| Command / key | Does |
+| --- | --- |
+| `:enew` | New blank buffer in the current window |
+| `:tabnew` (or `<leader>to`) | New blank buffer in a **new tab** |
+| `:new` | New blank buffer in a horizontal split |
+| `:vnew` | New blank buffer in a vertical split |
+
+**To save it as a real file** (whenever you're ready): `:w path/to/name.ext` —
+this writes the buffer to that path and creates the file (and any missing
+folders with `:w ++p path/…`). After that, plain `:w` saves it again.
+
+**Create a named file directly on disk** two other ways:
+
+- **From the file tree:** press `a` on a folder in nvim-tree, type the name
+  (end with `/` to make a folder instead), `Enter`. It's created where you are.
+- **By opening a path:** `:e path/to/new.ext` opens an empty buffer for that
+  path; `:w` writes it to disk.
+
+> An unnamed blank buffer is throwaway — close it anytime with `:bd!` (no save
+> needed). See [closing an unsaved buffer](#close-an-unsaved--scratch-buffer-and-the-e784-trap).
+
 ### Closing tabs, splits & windows
 
 Handy distinction: a **split** is a window pane in the current tab; a **tab** is a
