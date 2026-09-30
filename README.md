@@ -68,6 +68,8 @@ for the full details and in-plugin keys.
 | | | | `ysiw)` `cs"'` `ds(` | Surround add/change/delete |
 | | | | `daf` / `vif` | Delete / select a function |
 | | | | `]m` / `[m` | Next / prev function |
+| | | | `zM` / `zR` | Collapse / expand all folds |
+| | | | `za` | Toggle fold under cursor |
 | | | | `<leader>xx` | Diagnostics panel (Trouble) |
 | | | | `<leader>ft` · `]t` | Find TODOs · next TODO |
 
@@ -1028,9 +1030,24 @@ are open across tabs). Gitsigns updates the gutter automatically.
 > manually with `:e` / `:checktime`. (Ask if you want it to reload automatically
 > when you switch back to Neovim.)
 
-### Handy one-liners
+### Fold (collapse / expand) functions
 
-| Task | How |
+Folding is on via **treesitter**, so functions, classes, and blocks are foldable.
+Files open **fully expanded**; you fold on demand.
+
+| Key | Action |
+| --- | --- |
+| `zM` | **Collapse all** — fold every function/block in the file |
+| `zR` | **Expand all** — unfold everything |
+| `za` | Toggle the fold under the cursor |
+| `zc` / `zo` | Close / open the fold under the cursor |
+| `zC` / `zO` | Close / open it **recursively** (nested folds too) |
+| `zm` / `zr` | Fold **more** / **less** — one level at a time |
+| `zj` / `zk` | Jump to the next / previous fold |
+
+**So: `zM` collapses all functions, `zR` expands them all.** A folded region
+shows as one line (`+-- N lines`); put the cursor on it and `zo` (or `za`) to
+peek inside.
 | --- | --- |
 | Go to line 120 | `:120` then `Enter` (or `120G`) |
 | Top / bottom of file | `gg` / `G` |

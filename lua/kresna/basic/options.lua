@@ -38,3 +38,9 @@ opt.splitbelow = true -- split horizontal window to the bottom
 
 -- turn off swapfile
 opt.swapfile = false
+
+-- code folding (by function/class/block, via treesitter)
+opt.foldmethod = "expr"
+opt.foldexpr = "v:lua.vim.treesitter.foldexpr()" -- fold at treesitter nodes
+opt.foldenable = true
+opt.foldlevelstart = 99 -- open files fully expanded; you fold on demand (zM / zc)
