@@ -50,9 +50,9 @@ for the full details and in-plugin keys.
 | `K` | Hover docs | | `<leader>y` / `Y` | Yank to system clipboard |
 | `gd` / `gD` | Definition / declaration | | `<leader>p` | Paste, keep register (visual) |
 | `gi` / `go` | Implementation / type | | **Terminal** | |
-| `gr` | References | | `<C-\>` | Toggle terminal |
-| `gs` | Signature help | | `<Esc>` / `jk` | Leave terminal mode |
-| `<F2>` | Rename | | `<C-h/j/k/l>` | Move out of terminal |
+| `gr` | References | | `<C-\>` | Toggle terminal #1 |
+| `gs` | Signature help | | `<leader>ts` | Pick/switch terminal |
+| `<F2>` | Rename | | `<Esc>` / `jk` | Leave terminal mode |
 | `<F3>` / `<F4>` | Format / code action | | **Markdown** | |
 | `[d` / `]d` | Prev / next diagnostic | | `<leader>mp` | Toggle browser preview |
 | `gl` | Line diagnostics float | | **Discover keys** | |
@@ -624,15 +624,29 @@ An integrated terminal that **floats** over the editor.
 
 | Key | Mode | Action |
 | --- | --- | --- |
-| `<C-\>` | Normal / Terminal | Toggle the terminal (floating) |
+| `<C-\>` | Normal / Terminal | Toggle **terminal #1** (floating) |
+| `1<C-\>`, `2<C-\>`, … | Normal | Toggle a **numbered** terminal (#1, #2, …) |
+| `<leader>ts` | Normal | **Pick** from all open terminals (`:TermSelect`) |
 | `<Esc>` or `jk` | Terminal | Leave insert (to normal mode) |
 | `<C-h/j/k/l>` | Terminal | Move to the window left/down/up/right |
 
-**Commands:** `:ToggleTerm`, `:ToggleTerm direction=horizontal`,
+**Commands:** `:ToggleTerm`, `:TermSelect` (picker), `:ToggleTerm direction=horizontal`,
 `:ToggleTerm direction=vertical`, `:TermExec cmd="npm test"`.
 
-**How to use:** `<C-\>` opens a floating terminal over the current tab. Prefix
-with a count to open numbered terminals — e.g. `2<C-\>` opens/toggles terminal #2.
+**How to use:** `<C-\>` opens/toggles **terminal #1** over the current tab —
+pressing it again always returns to that **same** terminal (same shell, even
+across tabs). For more, use numbered terminals (`2<C-\>`) or pick with
+**`<leader>ts`**.
+
+**Multiple terminals & "why did a new one open?".** `<C-\>` always targets
+terminal **#1**, so it reuses it. But two things create *separate* terminals:
+
+- The nvim-tree **`t`** key opens a **brand-new terminal per folder** (by design)
+  — these are extra terminals, not #1. Jump between all of them with
+  **`<leader>ts`** (`:TermSelect`).
+- Typing **`exit`** / `<C-d>` ends the shell, and `close_on_exit` destroys that
+  terminal — so the next open is a fresh one. To keep a terminal around, hide it
+  with `<C-\>` instead of exiting.
 
 **Shared across tabs.** The terminal is a **float**, so it isn't tied to any one
 tab's window layout. Open it in one tab, switch to another, press `<C-\>` — the

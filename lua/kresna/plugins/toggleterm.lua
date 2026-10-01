@@ -34,5 +34,11 @@ return {
      -- Change the default shell. Can be a string or a function returning a string
     shell = vim.o.shell,
     auto_scroll = true, -- automatically scroll to the bottom on terminal output
-  }
+  },
+  config = function(_, opts)
+    require("toggleterm").setup(opts)
+    -- Pick among all open terminals (the nvim-tree `t` key opens one per folder,
+    -- and <count><C-\> opens numbered ones — this lets you jump between them).
+    vim.keymap.set("n", "<leader>ts", "<cmd>TermSelect<CR>", { desc = "Select / switch terminal" })
+  end,
 }
