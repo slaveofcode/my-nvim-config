@@ -561,8 +561,21 @@ browse history — the closest thing to a git GUI.
 | `<Enter>` | Drill into a file to stage individual lines/hunks |
 | `q` | Quit back to Neovim |
 
-**How to use:** `<leader>gg`, press `Space` on the files you want, `c` to commit,
-`P` to push, `q` to exit. Requires the `lazygit` binary (`brew install lazygit`).
+**`git add` (staging) in lazygit** — in the **Files** panel:
+
+| Key | Does (`git add` equivalent) |
+| --- | --- |
+| `Space` | Stage / unstage the file (or folder) under the cursor |
+| `a` | Stage / unstage **all** files at once |
+| `<Enter>` then `Space` | Drill into a file and stage **individual hunks/lines**; `Esc` to go back |
+| `d` | Discard the change (⚠️ like `git checkout` — can't undo) |
+
+Staged files move to the **Staged** section (green ✓). Then `c` to commit the
+staged changes, `P` to push.
+
+**How to use:** `<leader>gg`, press `Space` on the files you want (or `a` for all),
+`c` to commit, `P` to push, `q` to exit. Press `?` for the full keymap. Requires
+the `lazygit` binary (`brew install lazygit`).
 
 ### gitsigns — git in the gutter
 
