@@ -33,13 +33,18 @@ return {
         return vim.fn.getcwd()
       end
 
-      -- t -> floating terminal in this folder
+      -- t -> reuse the SINGLE main terminal (#1, same one <C-\> toggles) and
+      -- cd it into the folder under the cursor. No more stacking new terminals.
       vim.keymap.set("n", "t", function()
-        require("toggleterm.terminal").Terminal
-          :new({ dir = node_dir(), direction = "float", close_on_exit = true })
-          :toggle()
+        local dir = node_dir()
+        local tt = require("toggleterm.terminal")
+        local term = tt.get_or_create_term(1, dir, "float")
+        if not term:is_open() then
+          term:open()
+        end
+        term:change_dir(dir) -- cd the running shell into the chosen folder
       end, {
-        desc = "nvim-tree: open terminal in this folder",
+        desc = "nvim-tree: open the main terminal in this folder",
         buffer = bufnr,
         noremap = true,
         silent = true,

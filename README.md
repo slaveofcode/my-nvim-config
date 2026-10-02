@@ -409,7 +409,7 @@ A sidebar file tree (replaces netrw).
 | `<leader>cd` | **Set the folder under the cursor as the tree root** (custom) |
 | `<C-]>` | Same — set folder as root ("CD"), built-in |
 | `-` | Go **up** a level (root → parent), built-in |
-| `t` | Open a **terminal in the folder under the cursor** (custom) |
+| `t` | Open/`cd` the **main terminal into the folder under the cursor** (custom) |
 | `gl` | Open **lazygit for this folder's git repo** (custom) |
 | `<C-t>` | Open the file in a **new tab** |
 | `<C-v>` | Open in a **vertical** split |
@@ -430,9 +430,10 @@ in **every** tab you switch to, and closing it in one tab closes it everywhere �
 so you get a consistent sidebar no matter which tab you're on.
 
 **Open a terminal at a chosen path.** Move the cursor onto any folder (or file)
-in the tree and press **`t`** — a floating terminal opens **in that directory**
-(a file's parent folder). Pick the path in the tree, press `t`, and you're
-dropped into a shell there. `exit` or `<C-\>` closes it.
+in the tree and press **`t`** — the **main terminal (#1, the one `<C-\>` toggles)**
+opens and `cd`s into that directory. Press `t` on a different folder and the
+*same* terminal just `cd`s there — it **reuses one terminal** instead of stacking
+new ones. `exit` or `<C-\>` closes it.
 
 **Open lazygit for a chosen repo.** Put the cursor on a folder (or file) and
 press **`gl`** — lazygit opens for the **git repo that folder belongs to**. In
@@ -639,14 +640,14 @@ across tabs). For more, use numbered terminals (`2<C-\>`) or pick with
 **`<leader>ts`**.
 
 **Multiple terminals & "why did a new one open?".** `<C-\>` always targets
-terminal **#1**, so it reuses it. But two things create *separate* terminals:
+terminal **#1** and reuses it; the nvim-tree **`t`** key also uses that **same
+#1** (it just `cd`s it). So those won't pile up. New terminals only appear when:
 
-- The nvim-tree **`t`** key opens a **brand-new terminal per folder** (by design)
-  — these are extra terminals, not #1. Jump between all of them with
-  **`<leader>ts`** (`:TermSelect`).
-- Typing **`exit`** / `<C-d>` ends the shell, and `close_on_exit` destroys that
-  terminal — so the next open is a fresh one. To keep a terminal around, hide it
-  with `<C-\>` instead of exiting.
+- You open a **numbered** one on purpose (`2<C-\>`, `3<C-\>`, …) — switch between
+  all of them with **`<leader>ts`** (`:TermSelect`).
+- You type **`exit`** / `<C-d>`, which ends the shell; `close_on_exit` destroys
+  that terminal, so the next open is fresh. To keep it, hide it with `<C-\>`
+  instead of exiting.
 
 **Shared across tabs.** The terminal is a **float**, so it isn't tied to any one
 tab's window layout. Open it in one tab, switch to another, press `<C-\>` — the
